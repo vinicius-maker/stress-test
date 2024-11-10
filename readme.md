@@ -15,7 +15,7 @@ Criar um sistema CLI em Go para realizar testes de carga em um serviço web. O u
    - Distribuir os requests de acordo com o nível de concorrência definido.
    - Garantir que o número total de requests seja cumprido.
 
-## Execução do Teste:
+## Geração do Relatório:
 
    - Apresentar um relatório ao final dos testes contendo:
       - Tempo total gasto na execução
@@ -64,7 +64,6 @@ docker run stresstest --url=https://httpbin.org/status/200 --requests=10 --concu
 - Resultado Esperado:
      - Requests totais: 10
      - Status HTTP 200: 10
-     - Outros Status HTTP: 0
 
 #### Cenário de Teste com URL inválida (Status HTTP 0)
 
@@ -75,7 +74,7 @@ docker run stresstest --url=http://invalid.url --requests=10 --concurrency=5
 - Resultado Esperado:
      - Requests totais: 10
      - Status HTTP 200: 0
-     - Outros Status HTTP 0: 10
+     - Outros Status HTTP (0): 10
 - Obs: Status HTTP 0: 10 (indica falha na conexão).
 
 #### Cenário de Teste com URL retornando Status HTTP 404 (Not Found)
@@ -87,7 +86,7 @@ docker run stresstest --url=https://httpbin.org/status/404 --requests=10 --concu
 - Resultado Esperado:
      - Requests totais: 10
      - Status HTTP 200: 0
-     - Outros Status HTTP 404: 10
+     - Outros Status HTTP (404): 10
 
 #### Cenário de Teste com URL retornando Status HTTP 500 (Internal Server Error)
 
@@ -98,7 +97,7 @@ docker run stresstest --url=https://httpbin.org/status/500 --requests=10 --concu
 - Resultado Esperado:
      - Requests totais: 10
      - Status HTTP 200: 0
-     - Outros Status HTTP 500: 10
+     - Outros Status HTTP (500): 10
 
 #### Cenário de Teste com URL retornando Status HTTP 502 (Bad Gateway)
 
@@ -109,7 +108,7 @@ docker run stresstest --url=https://httpbin.org/status/502 --requests=10 --concu
 - Resultado Esperado:
      - Requests totais: 10
      - Status HTTP 200: 0
-     - Outros Status HTTP 502: 10
+     - Outros Status HTTP (502): 10
 
 #### Cenário de Teste com Alta Concurrency
 
@@ -120,7 +119,6 @@ docker run stresstest --url=https://httpbin.org/status/200 --requests=100 --conc
 - Resultado Esperado:
      - Requests totais: 100
      - Status HTTP 200: 100
-     - Outros Status HTTP: 0
 
 #### Cenário de Teste com Concurrency Baixa
 
@@ -131,7 +129,6 @@ docker run stresstest --url=https://httpbin.org/status/200 --requests=10 --concu
 - Resultado Esperado:
      - Requests totais: 10
      - Status HTTP 200: 10
-     - Outros Status HTTP: 0
 
 #### Cenário de Teste com Tempo de Resposta Lento
 
@@ -142,4 +139,3 @@ docker run stresstest --url=https://httpbin.org/delay/2 --requests=5 --concurren
 - Resultado Esperado:
      - Requests totais: 5
      - Status HTTP 200: 5
-     - Outros Status HTTP: 0

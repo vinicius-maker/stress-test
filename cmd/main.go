@@ -26,19 +26,25 @@ func main() {
 
 	start := time.Now()
 
+	requestsPerWorker := *requests / *concurrency
+	remainder := *requests % *concurrency
+
 	for i := 0; i < *concurrency; i++ {
+		reqs := requestsPerWorker
+		if i < remainder {
+			reqs++
+		}
 		wg.Add(1)
-		go worker.Execute(*url, *requests / *concurrency, results, &wg)
+		go worker.Execute(*url, reqs, results, &wg)
 	}
 
-	wg.Wait()
-	close(results)
+	go func() {
+		wg.Wait()
+		close(results)
+	}()
 
 	statusCounts := report.GenerateReport(results)
 
 	elapsed := time.Since(start)
-	fmt.Printf("\nTempo total: %v\n", elapsed)
-	fmt.Printf("Requests totais: %d\n", *requests)
-	fmt.Printf("Status HTTP 200: %d\n", statusCounts[200])
-	report.PrintStatus(statusCounts)
+	report.PrintStatus(statusCounts, elapsed, requests)
 }
